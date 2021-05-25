@@ -13,9 +13,6 @@
             <h1>Student Details</h1>
              <br>
             <StudentDetails :student="selected_student"/>
-            <!-- <h4 v-for="student in students" :key="student.id">
-                    <b>{{student.id}} : </b> {{student.first_name + ' ' + student.last_name}}<br><b>Father Name: </b>{{student.father_name}}
-            </h4> -->
             <br>
         </div>
     </div>
@@ -63,8 +60,5 @@ export default {
     grid-template-columns: 1fr 1fr;
     text-align: center;
     margin-top:1rem;
-}
-h1{
-    
 }
 </style>
