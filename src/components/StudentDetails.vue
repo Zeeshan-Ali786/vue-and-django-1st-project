@@ -1,5 +1,5 @@
 <template>
-    <div v-if="student">
+    <div>
         <h4>{{student.first_name + ' ' + student.last_name}}</h4>
         <p><b>ID : </b>{{student.id}}</p>
         <p v-if="student.first_name"><b>First Name : </b>{{student.first_name}}</p>

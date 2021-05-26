@@ -1,33 +1,55 @@
 <template>
-    <div class="layout">
-        <div>
-            <h1>List of Students</h1>
-            <br>
-                <StudentList v-for="student in students"
-                :key="student.id" 
-                :style="{'cursor':'pointer'}" 
-                :Name="student"
-                @student_clicked="StudentClicked($event)"/>
-        </div>
-        <div>
-            <h1>Student Details</h1>
-             <br>
-            <StudentDetails :student="selected_student"/>
-            <br>
-        </div>
-    </div>
+    <v-row class="text-center">
+        <v-col cols="6">
+            <v-card elevation="5" :style="{'margin' : '1rem 1rem' , 'padding' : '1rem'}">
+            <v-card-text :style="{'font-size': '30px' , 'font-weight': '400' , 'color': 'steelblue'}">
+                List of Students
+            </v-card-text>
+                <div class="layout">
+                    <div>
+                        <br>
+                            <StudentList v-for="student in students"
+                            :key="student.id" 
+                            :style="{'cursor':'pointer'}" 
+                            :Name="student"
+                            @student_clicked="StudentClicked($event)"
+                            @student_delete="StudentDeleted($event)"
+                            @student_edit="StudentEdited($event)"
+                            />
+                    </div>
+                </div>
+            </v-card>
+        </v-col>
+            <v-col cols="6">
+
+            <v-card elevation="5" :style="{'margin' : '1rem 1rem' , 'padding' : '1rem'}">
+                <v-card-text :style="{'font-size': '30px' , 'font-weight': '400' , 'color': 'darkgray',}">
+                        Student Details
+                    </v-card-text>
+                <div>
+                    <br>
+                    <StudentDetails v-if="selected_student" :student="selected_student"/>
+                    <br>
+                    <StudentEdit v-if="selected_edit" :student="selected_edit"/>
+                </div>
+            </v-card>
+         </v-col>
+    </v-row>
+
 </template>
 
 <script>
 import StudentList from "./StudentList.vue";
 import StudentDetails from "./StudentDetails.vue";
+import StudentEdit from "./StudentEdit.vue";
 
 export default {
     name:'Students',
     data(){
         return{
             students:['New1','New2'],
-            selected_student:null
+            selected_student:null,
+            selected_edit:null
         }
     },
     created(){
@@ -42,12 +64,32 @@ export default {
     },
     components:{
         StudentList,
-        StudentDetails
+        StudentDetails,
+        StudentEdit
     },
     methods:{
         StudentClicked(student_id){
             // console.log("Student Clicked",student_id)
+            this.selected_edit = null;
             this.selected_student = this.students.find(student => student.id === student_id);
+        },
+        StudentDeleted(student_id){
+            fetch(`http://127.0.0.1:8000/demo/students/${student_id}/`,{
+            method:'DELETE',
+            headers:{
+                'Content-Type':'application/json', 
+                'Authorization':'Token 9e39e947a631b99ca7b701f97ded35971ccddb15'
+            }
+            })
+            .then( () => {
+                this.students = this.students.filter(student => student.id !== student_id)
+            })
+            .catch( error=> console.log(error))
+        },
+        StudentEdited(student_id){
+            this.selected_student = null;
+            this.selected_edit = this.students.find(student => student.id === student_id);
+            
         }
     }
 }
@@ -57,7 +99,7 @@ export default {
 <style scoped>
 .layout{
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    /* grid-template-columns: 1fr 1fr; */
     text-align: center;
     margin-top:1rem;
 }

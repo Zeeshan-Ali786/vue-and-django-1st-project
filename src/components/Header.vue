@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1><font-awesome-icon icon="user-graduate"/> Students</h1>
-        <hr>
+        
     </div>
 </template>
 
@@ -20,6 +20,9 @@ export default {
 <style scoped>
 h1{
     color: brown;
-    font-size: 2.8rem;
+    font-size: 3.2rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
 }
 </style>
