@@ -30,7 +30,7 @@
                     <br>
                     <StudentDetails v-if="selected_student" :student="selected_student"/>
                     <br>
-                    <StudentEdit v-if="selected_edit" :student="selected_edit"/>
+                    <StudentEdit v-if="selected_edit" :student="selected_edit" @update="update()"/>
                 </div>
             </v-card>
          </v-col>
@@ -90,7 +90,25 @@ export default {
             this.selected_student = null;
             this.selected_edit = this.students.find(student => student.id === student_id);
             
-        }
+        },
+        // update(){
+        //     this.getStudent();
+        // },
+        // getStudent(){
+        //      fetch('http://127.0.0.1:8000/demo/students',{
+        //     method:'Get',
+        //     headers:{
+        //         'Authorization':'Token 9e39e947a631b99ca7b701f97ded35971ccddb15'
+        //     }
+        // }).then(resp => resp.json())
+        // .then(resp => {
+        //     this.students = resp;
+        //     if(this.selected_student){
+        //         this.selected_student = this.students.find(student => student.id === this.selected_student.id);
+        //     }
+        // })
+        // .catch(error => console.log(error))
+        // }
     }
 }
 </script>
