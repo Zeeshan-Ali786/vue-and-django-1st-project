@@ -16,7 +16,12 @@
                             @student_delete="StudentDeleted($event)"
                             @student_edit="StudentEdited($event)"
                             />
-                    </div>
+                    </div><br><br>
+                    <v-row>
+                            <v-col cols="6" offset-md="6" :style="{'text-align':'right'}">
+                                <v-btn color="primary" type="button" elevation="2" @click="NewStudent()">Add Student</v-btn>
+                            </v-col>
+                    </v-row>
                 </div>
             </v-card>
         </v-col>
@@ -91,24 +96,28 @@ export default {
             this.selected_edit = this.students.find(student => student.id === student_id);
             
         },
-        // update(){
-        //     this.getStudent();
-        // },
-        // getStudent(){
-        //      fetch('http://127.0.0.1:8000/demo/students',{
-        //     method:'Get',
-        //     headers:{
-        //         'Authorization':'Token 9e39e947a631b99ca7b701f97ded35971ccddb15'
-        //     }
-        // }).then(resp => resp.json())
-        // .then(resp => {
-        //     this.students = resp;
-        //     if(this.selected_student){
-        //         this.selected_student = this.students.find(student => student.id === this.selected_student.id);
-        //     }
-        // })
-        // .catch(error => console.log(error))
-        // }
+        update(){
+            this.getStudent();
+        },
+        getStudent(){
+             fetch('http://127.0.0.1:8000/demo/students',{
+            method:'Get',
+            headers:{
+                'Authorization':'Token 9e39e947a631b99ca7b701f97ded35971ccddb15'
+            }
+        }).then(resp => resp.json())
+        .then(resp => {
+            this.students = resp;
+            if(this.selected_student){
+                this.selected_student = this.students.find(student => student.id === this.selected_student.id);
+            }
+        })
+        .catch(error => console.log(error))
+        },
+        NewStudent(){
+            this.selected_student = null;
+            this.selected_edit = {first_name:'',last_name:'',father_name:'',date_of_birth:'',gender:false,email_address:''};
+        }
     }
 }
 </script>
